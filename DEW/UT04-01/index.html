@@ -1,14 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
+
 <body>
     <form action="https://www.w3schools.com/action_page.php">
-        <input type="tel" name="Telefono" id="">
-        <input type="submit" name="" id="">
+        <fieldset>
+            <legend>Datos usuario</legend>
+            <hr>
+            <div class="dosCol">
+                <label for="NombreUsuario">Nombre de Usuario</label>
+                <label for="password">Contraseña</label>
+                <input required="" type="text" name="NombreUsuario"  id="userName" placeholder="Nombre de usuario">
+                <div>
+                    <input required="" type="password" name="password" id="password"  placeholder="Introduce contraseña" >
+                </div>
+                <div></div>
+                <div>
+                    <input  type="checkbox" name="showPassword" id="showPassword">
+                    <label for="showPassword">Mostrar Contraseña</label>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <hr>
+            <div class="dosCol">
+                <label for="Nombre">Nombre</label>
+                <label for="Apellidos">Apellidos</label>
+                <input required="" type="text" name="Nombre" id="Nombre" placeholder="Nombre">
+                <input required="" type="text" name="Apellidos" id="Apellidos" placeholder="Apellidos">
+                <label for="telefono">Teléfono</label>
+                <label for="codigoPostal">Código postal</label>
+                <input required="" type="tel" name="telefono" id="telefono"  placeholder="Ejem: (+34)922123123">
+                <input required="" type="text" name="codigoPostal" id="codigoPostal" placeholder="38XXX">
+            </div>
+            <div class="tresCol">
+                <label for="DNI-NIE">DNI/NIE</label>
+                <span>Crear cuenta como:</span>
+                <label for="AnioNacimiento">Año de Nacimiento</label>
+                <div>
+                    <select name="DNI-NIE_select" id="DNI-NIE_select">
+                        <option value="" disabled selected>---</option>
+                        <option value="DNI">DNI</option>
+                        <option value="NIE">NIE</option>
+                    </select>
+                    <input required type="text" name="DNI-NIE"  id="DNI-NIE" placeholder="DNI / NIE">
+                </div>
+                <div>
+                    <input  type="radio" name="CrearCuenta" id="Particular">
+                    <label for="Particular">Particular</label>
+                    <input  type="radio" name="CrearCuenta" id="Empresa">
+                    <label for="Empresa">Empresa</label>
+                </div>
+                <select name="AnioNacimiento" id="AnioNacimiento"></select>
+            </div>
+            <span>Elige tus aficiones:</span>
+            <div class="tresCol">
+                <div>
+                    <input  type="checkbox" name="aficiones" id="Musica">
+                    <label for="Musica">Música</label>
+                </div>
+                <div>
+                    <input  type="checkbox" name="aficiones" id="Dporte">
+                    <label for="Dporte">Deporte</label>
+                </div>
+                <div>
+                    <input  type="checkbox" name="aficiones" id="VideoJuegos">
+                    <label for="VideoJuegos">Video Juegos</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="aficiones" id="Manualidades">
+                    <label for="Manualidades">Manualidades</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="aficiones" id="Artes">
+                    <label for="Artes">Artes</label>
+                </div>
+                <div>
+                    <input  type="checkbox" name="aficiones" id="Lectura">
+                    <label for="Lectura">Lectura</label>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Datos de Publicación</legend>
+            <hr>
+            <div class="unacol">
+                <label for="titulo">Título</label>
+                <input required="" type="text" id="titulo" oninput="conteoTitulo()" maxlength="15">
+                <p class="contador" id="contadorTitulo">0/15</p>
+                <label for="Descripcion">Descripción</label>
+                <textarea name="Descripcion" id="Descripcion" maxlength="120" oninput="conteoDescr()"></textarea>
+                <p class="contador" id="contadorDescrip">0/120</p>
+            </div>
+        </fieldset>
+        <button type="submit">Enviar</button>
+        <!-- <input type="reset" name="Resetear" id="Resetear" value="Resetear"> -->
     </form>
+    <script src="script.js"></script>
 </body>
+
 </html>

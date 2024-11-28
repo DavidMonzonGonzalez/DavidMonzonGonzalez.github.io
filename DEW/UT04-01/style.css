@@ -1,0 +1,46 @@
+body{
+    width: 80%;
+    margin: auto;
+}
+.dosCol{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.tresCol{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+.unacol{
+    display: grid;
+    grid-template-columns: auto;
+}
+input[type="text"], input[type="password"], input[type="tel"], textarea{
+    border-radius: 0.25rem;
+    margin: 0.2em;
+}
+#password{
+    width: 97%;
+}
+input[type="text"]:required, 
+input[type="password"]:required, 
+input[type="tel"]:required, 
+textarea:required {
+    border: 1.8px solid red;
+}
+
+input[type="text"]:valid, input[type="password"]:valid, input[type="tel"]:valid, textarea:valid{
+    border: 1.8px solid green;
+}
+.contador{
+    margin-top: -0.2em;
+    font-size: small;
+    text-align: right;
+}
+fieldset{
+    border: none;
+}
+hr{
+    margin-top: -0.4rem;
+    height: 2px;
+    background-color: black;
+}
