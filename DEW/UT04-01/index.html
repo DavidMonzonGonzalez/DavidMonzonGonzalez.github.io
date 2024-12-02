@@ -37,8 +37,8 @@
                 <input required="" type="text" name="Apellidos" id="Apellidos" maxlength="25" minlength="2" placeholder="Apellidos">
                 <label for="telefono">Teléfono</label>
                 <label for="codigoPostal">Código postal</label>
-                <input required="" type="tel" name="telefono" id="telefono" maxlength="9" minlength="9" placeholder="Ejem:922123123">
-                <input required="" type="text" name="codigoPostal" id="codigoPostal" maxlength="5" minlength="5" placeholder="38XXX">
+                <input required="" type="tel" name="telefono" pattern="[0-9]{9}" id="telefono" maxlength="9" minlength="9" placeholder="Ejem:922123123">
+                <input required="" type="text" name="codigoPostal" pattern="[38][0-9]{3}" id="codigoPostal" maxlength="5" minlength="5" placeholder="38XXX">
             </div>
             <div class="tresCol">
                 <label for="DNI-NIE">DNI/NIE</label>
@@ -50,7 +50,7 @@
                         <option value="DNI">DNI</option>
                         <option value="NIE">NIE</option>
                     </select>
-                    <input required type="text" name="DNI-NIE"  id="DNI-NIE" maxlength="9" minlength="9" placeholder="DNI / NIE">
+                    <input required type="text" name="DNI-NIE" disabled id="DNI-NIE" maxlength="9" minlength="9" placeholder="DNI / NIE">
                 </div>
                 <div>
                     <input  type="radio" name="CrearCuenta" checked id="Particular">

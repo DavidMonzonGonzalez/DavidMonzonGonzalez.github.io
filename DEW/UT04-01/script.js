@@ -12,6 +12,15 @@ const DOM = {
         titulo = document.getElementById('titulo'), 
         descripcion = document.getElementById('Descripcion')
     ],
+    nombreUsuario: document.getElementById('userName'),
+        contraseña: document.getElementById('password'),
+        nombre: document.getElementById('Nombre'),
+        apellidos: document.getElementById('Apellidos'),
+        telefono: document.getElementById('telefono'),
+        codigoPostal: document.getElementById('codigoPostal'),
+        dni_nie: document.getElementById('DNI-NIE'),
+        titulo: document.getElementById('titulo'), 
+        descripcion: document.getElementById('Descripcion'),
     aficiones: document.getElementsByName("aficiones")
 }
 
@@ -56,6 +65,19 @@ function conteoChecked(){
     return conteo;
 }
 
+document.getElementById('DNI-NIE_select').addEventListener('change', function(){
+    if(this.value === "DNI"){
+        DOM.dni_nie.disabled = false;
+        DOM.dni_nie.pattern = "[0-9]{8}[A-Z]{1}";
+        DOM.dni_nie.placeholder = "ejemplo: 45861486F";
+    }
+    else{
+        DOM.dni_nie.disabled = false;
+        DOM.dni_nie.pattern = "[A-Z]{1}[0-9]{7}[A-Z]{1}";
+        DOM.dni_nie.placeholder = "ejemplo: H5861486F";
+    }
+})
+
 DOM.formulario.addEventListener("submit", (e)=>{
     if(conteoChecked() < 2){
         e.preventDefault()
@@ -63,11 +85,11 @@ DOM.formulario.addEventListener("submit", (e)=>{
     };
     let noRellenado = [];
     DOM.lista.map(input => {
-        if(input.value === ""){
+        if(input.validationMessage != ""){
             e.preventDefault()
-            noRellenado.push(input.name);
+            noRellenado.push(`${input.name}: ${input.validationMessage}`);
         }
     });
-    alert(`No se han rellenado los siguientes campos: \n ${noRellenado.join(`\n`)}`);
+    alert(`Los siguientes campos no se han rellenado o se han rellenado mal: \n ${noRellenado.join(`\n`)}`);
 })
 
