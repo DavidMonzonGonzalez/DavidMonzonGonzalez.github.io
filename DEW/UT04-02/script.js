@@ -1,17 +1,6 @@
 
 const DOM = {
     formulario: document.getElementById('formulario'),
-    lista: [
-        nombreUsuario = document.getElementById('userName'),
-        contraseña = document.getElementById('password'),
-        nombre = document.getElementById('Nombre'),
-        apellidos = document.getElementById('Apellidos'),
-        telefono = document.getElementById('telefono'),
-        codigoPostal = document.getElementById('codigoPostal'),
-        dni_nie = document.getElementById('DNI-NIE'),
-        titulo = document.getElementById('titulo'), 
-        descripcion = document.getElementById('Descripcion')
-    ],
     nombreUsuario: document.getElementById('userName'),
         contraseña: document.getElementById('password'),
         nombre: document.getElementById('Nombre'),
@@ -22,9 +11,18 @@ const DOM = {
         titulo: document.getElementById('titulo'), 
         descripcion: document.getElementById('Descripcion'),
         aficiones: document.getElementsByClassName("aficiones"),
-        enviarAficiones: document.getElementsByName('Aficiones')
+        enviarAficiones: document.getElementsByName('Aficiones'),
+        lista: []
 }
-
+DOM.lista.push(DOM.nombreUsuario,
+    DOM.contraseña,
+    DOM.nombre,
+    DOM.apellidos,
+    DOM.telefono,
+    DOM.codigoPostal,
+    DOM.dni_nie,
+    DOM.titulo, 
+    DOM.descripcion)
 window.onload=generarAnios();
 function generarAnios() {
     const selectAnio = document.getElementById("AnioNacimiento");
@@ -90,7 +88,30 @@ document.getElementById('DNI-NIE_select').addEventListener('change', function(){
     }
 })
 
+function validacionDNI(DNI){
+    let resultado;
+    if(document.getElementById('DNI-NIE_select').value === "DNI"){
+        DOM.dni_nie.pattern = "^\d{8}[A-Za-z]$";
+        let numDNI = DNI.slice(0, -1);
+        let letraDNI = DNI.slice(-1);
+        let stringLetras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E']
+        let resto = numDNI % 23;
+        resultado = (stringLetras[resto].toLocaleUpperCase() === letraDNI);
+    }    
+
+
+    if (!resultado) {
+        DOM.dni_nie.setCustomValidity("El DNI no es válido");
+    } else {
+        DOM.dni_nie.setCustomValidity("");
+    }
+
+    return resultado;
+}
+
+
 DOM.formulario.addEventListener("submit", (e)=>{
+    validacionDNI(DOM.dni_nie.value)
     if(conteoChecked() < 2){
         e.preventDefault()
         alert("Debe seleccionar al menos dos aficiones")

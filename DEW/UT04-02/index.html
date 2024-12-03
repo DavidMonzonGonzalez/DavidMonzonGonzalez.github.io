@@ -50,7 +50,7 @@
                         <option value="DNI">DNI</option>
                         <option value="NIE">NIE</option>
                     </select>
-                    <input required type="text" name="DniNie" disabled id="DNI-NIE" maxlength="9" minlength="9" placeholder="DNI / NIE">
+                    <input required type="text" pattern=""  oninput="validacionDNI(this.value)" name="DniNie" disabled id="DNI-NIE" maxlength="9" minlength="9" placeholder="DNI / NIE">
                 </div>
                 <div>
                     <input  type="radio" name="CuentaComo" checked id="Particular">
