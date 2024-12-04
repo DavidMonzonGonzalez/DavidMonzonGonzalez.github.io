@@ -1,7 +1,19 @@
 body{
-    width: 80%;
-    margin: auto;
+    width: 98%;
+    margin: 1%;
+    display: grid;
+    grid-template-columns: 4fr 2fr;
 }
+#mensajesError{
+    margin-right: 1%;
+}
+/* Estilo mensajes de error de la derecha */
+
+.errores{
+    color: red;
+    text-align: justify;
+}
+
 .dosCol{
     display: grid;
     grid-template-columns: auto auto;
@@ -25,23 +37,30 @@ input[type="text"]:required,
 input[type="password"]:required, 
 input[type="tel"]:required, 
 textarea:required {
-    border: 1.8px solid red;
+    border: 2px solid red;
 }
 
 input[type="text"]:invalid, 
 input[type="password"]:invalid, 
 input[type="tel"]:invalid, 
 textarea:invalid {
-    border: 1.8px solid red;
+    border: red solid 2px;
 }
 
 input[type="text"]:valid, input[type="password"]:valid, input[type="tel"]:valid, textarea:valid{
-    border: 1.8px solid green;
+    border: 2px solid green;
 }
 .contador{
     margin-top: -0.2em;
     font-size: small;
     text-align: right;
+}
+.errorPersonalizado{
+    margin-top: -0.2em;
+    font-size: small;
+    color: red;
+    display:block;
+    margin-top: 0;
 }
 fieldset{
     border: none;
