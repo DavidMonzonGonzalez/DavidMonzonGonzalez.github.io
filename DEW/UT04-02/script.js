@@ -10,7 +10,7 @@ const DOM = {
         titulo: document.getElementById('titulo'), 
         descripcion: document.getElementById('Descripcion'),
         aficiones: document.getElementsByClassName("aficiones"),
-        enviarAficiones: document.getElementsByName('Aficiones'),
+        enviarAficiones: document.getElementsByName('Aficiones')[0],
         lista: []
 }
 DOM.lista.push(
@@ -24,35 +24,24 @@ DOM.lista.push(
     DOM.titulo, 
     DOM.descripcion)
 window.onload=generarAnios();
+// Genero los años automáticamente desde 1920 hasta 2010
 function generarAnios() {
     const selectAnio = document.getElementById("AnioNacimiento");
     const anioActual = 2010; 
     const aniofinal = 1920; 
-    for (let anio = anioActual; anio >= aniofinal; anio--) {
-        const opcion = document.createElement("option");
-        opcion.value = anio;
-        opcion.textContent = anio;
-        selectAnio.appendChild(opcion);
+    for (let anio = anioActual; anio >= aniofinal; --anio) {
+        selectAnio.add(new Option(anio, anio));
     }
 }
-function conteoTitulo() {
-    let conteo = document.getElementById('titulo').value;
-    let cambio = document.getElementById('contadorTitulo');
-    cambio.innerHTML = `${conteo.length}/15`; 
-}
-function conteoDescr(){
-    let conteo = document.getElementById('Descripcion').value;
-    let cambio = document.getElementById('contadorDescrip');
-    cambio.innerHTML = `${conteo.length}/120`; 
-}
+// Oculto o muestro la contraseña
 document.getElementById('showPassword').addEventListener('change', function() {
-    const passwordField = document.getElementById('password');
     if (this.checked) {
-        passwordField.type = 'text';
+        DOM.contraseña.type = 'text';
     } else {
-        passwordField.type = 'password';
+        DOM.contraseña.type = 'password';
     }
 });
+// Cuento cuantas de las aficiones están seleccionadas
 function conteoChecked(){
     let conteo = 0; 
     Array.from(DOM.aficiones).forEach(elemento =>{
@@ -62,6 +51,7 @@ function conteoChecked(){
     })
     return conteo;
 }
+// Añado a una lista el nombre de las aficiones que están seleccionadas
 function aficionesMarcadas(){
     let aficionesSeleccionadas = [];
     let enviarAficiones = "";
@@ -85,15 +75,16 @@ document.getElementById('DNI-NIE_select').addEventListener('change', function() 
         inputDniNie.pattern = "^[X-Z][0-9]{7}[A-Z]$";  
     }
 });
-function validacionDNI(documento ){
+// Valido si el DNI o NIE son correctos
+function validacionDNI(documento){
     let valor = document.getElementById('DNI-NIE_select').value;
     let resultado;
+    let stringLetras = ['TRWAGMYFPDXBNJZSQVHLCKE'];
     if(valor === "DNI"){
         let numDNI = documento.slice(0, -1);
         let letraDNI = documento.slice(-1);
-        let stringLetras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E']
         let resto = numDNI % 23;
-        resultado = (stringLetras[resto].toLocaleUpperCase() === letraDNI);
+        resultado = (stringLetras[resto].toUpperCase() === letraDNI);
     }
     else{
         let numNIE;
@@ -110,7 +101,7 @@ function validacionDNI(documento ){
                 break;
         }  
         let restoNIE = numNIE % 23;
-        resultado = (stringLetras[restoNIE].toLocaleUpperCase() === letraNIE);
+        resultado = (stringLetras[restoNIE].toUpperCase() === letraNIE);
     }
     if (!resultado && valor === "DNI") {
         DOM.dni_nie.setCustomValidity("El DNI no es válido");
@@ -124,12 +115,11 @@ function validacionDNI(documento ){
 
     return resultado;
 }
+// Escribo los mensajes de error al enviar el formulario
 function mensajesError(nombre, mensaje, estado) {
     let elemento = document.getElementsByName(nombre)[0];
     let errorElemento = document.getElementById(`error${nombre}`);
-    if (errorElemento) {
-        document.body.removeChild(errorElemento);
-    }
+    errorElemento ? errorElemento.remove(): "";
     if (estado === "invalido") {
         let error = document.createElement('p');
         let div = document.getElementById('mensajesError');
@@ -140,20 +130,48 @@ function mensajesError(nombre, mensaje, estado) {
         if (nombre != "Aficiones"){
             let errorPersonalizado = document.createElement('p');
             errorPersonalizado.className = "errorPersonalizado";
-            
             errorPersonalizado.id = `error${nombre}`;
             errorPersonalizado.textContent = (mensaje === "Completa este campo") ? "Debe rellenar esta sección" : "Debe introducir correctamente los datos";
-            if (elemento){
-                elemento.insertAdjacentElement('afterend', errorPersonalizado);
-            } else {
-                console.error("No se encontró el elemento con el nombre:", nombre);
-            }
+            
+            elemento ? elemento.insertAdjacentElement('afterend', errorPersonalizado) : "";
         }
     }
 }
-
-
-
+// Borro (la parte de editar o añadir está comentada) los errores personalizados de debajo del input mientras el usuario escribe
+function editarMensajesError(nombre){
+    let elemento = document.getElementsByName(nombre)[0];
+    let errorElemento = document.getElementById(`error${nombre}`);
+    if(elemento.checkValidity()){
+        if (errorElemento) {
+            errorElemento.remove();
+        }
+    }
+    // Esta parte la dejo comentada, pero realmente funciona para modificar el mensaje de error de debajo del input mientras el usuario escribe
+    // else if(!errorElemento &&  !elemento.checkValidity()){
+    //     let errorPersonalizado = document.createElement('p');
+    //     errorPersonalizado.className = "errorPersonalizado";
+    //     errorPersonalizado.id = `error${nombre}`;
+    //     errorPersonalizado.textContent = (elemento.textContent != "") ? "" : "Debe introducir correctamente los datos";
+    //     elemento.insertAdjacentElement('afterend', errorPersonalizado);
+    // }
+    // else{
+    //     let cambiarTexto = document.getElementById(`error${nombre}`);
+    //     cambiarTexto.textContent = "Debe introducir correctamente los datos";
+    // }
+}
+// Realizo el conteo de caracteres introducidos en el input de Titulo
+function conteoTitulo() {
+    let conteo = document.getElementById('titulo').value;
+    let cambio = document.getElementById('contadorTitulo');
+    cambio.textContent = `${conteo.length}/15`; 
+}
+// Realizo el conteo de caracteres introducidos en el input de Descripción
+function conteoDescr(){
+    let conteo = document.getElementById('Descripcion').value;
+    let cambio = document.getElementById('contadorDescrip');
+    cambio.textContent = `${conteo.length}/120`; 
+}
+// Realizo las validaciones antes del envio del formulario
 DOM.formulario.addEventListener("submit", (e)=>{
     document.getElementById('mensajesError').textContent = "";
     conteoChecked() < 2 
