@@ -103,8 +103,7 @@ function validacionDNI(documento){
         }
         let restoNIE = Number(numNIE) % 23;
         console.log(restoNIE)
-        resultado = (stringLetras[restoNIE] === letraNIE.toUpperCase()); 
-        //Y1234567R
+        resultado = (stringLetras[restoNIE] === letraNIE.toUpperCase());
 
     if (!resultado && valor === "DNI") {
         DOM.dni_nie.setCustomValidity("El DNI no es válido");
