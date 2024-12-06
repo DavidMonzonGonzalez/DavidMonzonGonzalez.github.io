@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div>
+    <div id="principal">
         <form id="formulario" novalidate action="https://www.w3schools.com/action_page.php" >
             <fieldset>
                 <legend>Datos usuario</legend>
@@ -56,7 +56,7 @@
                     <span>Crear cuenta como:</span>
                     <label for="AnioNacimiento">Año de Nacimiento</label>
                     <div>
-                        <select required="" name="TipoDocumento" id="DNI-NIE_select" onchange="cambioPatternDniNie(this.value)">
+                        <select required="" name="TipoDocumento" id="DNI-NIE_select" >
                             <option value="" disabled selected>---</option>
                             <option value="DNI">DNI</option>
                             <option value="NIE">NIE</option>
@@ -115,8 +115,6 @@
             <button type="submit">Enviar</button>
             <input type="reset" name="Resetear" id="Resetear" value="Resetear">
         </form>
-    </div>
-    <div id="mensajesError">
     </div>
     <script src="script.js"></script>
 </body>

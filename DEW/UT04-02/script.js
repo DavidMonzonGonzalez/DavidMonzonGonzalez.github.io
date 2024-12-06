@@ -13,6 +13,7 @@ const DOM = {
         enviarAficiones: document.getElementsByName('Aficiones')[0],
         lista: []
 }
+
 DOM.lista.push(
     DOM.nombreUsuario,
     DOM.contraseña,
@@ -79,60 +80,67 @@ document.getElementById('DNI-NIE_select').addEventListener('change', function() 
 function validacionDNI(documento){
     let valor = document.getElementById('DNI-NIE_select').value;
     let resultado;
-    let stringLetras = ['TRWAGMYFPDXBNJZSQVHLCKE'];
+    const stringLetras = 'TRWAGMYFPDXBNJZSQVHLCKE';
     if(valor === "DNI"){
         let numDNI = documento.slice(0, -1);
         let letraDNI = documento.slice(-1);
         let resto = numDNI % 23;
-        resultado = (stringLetras[resto].toUpperCase() === letraDNI);
+        resultado = (stringLetras[resto] === letraDNI.toUpperCase());
     }
     else{
         let numNIE;
         let letraNIE = documento.slice(-1);
-        switch (documento[0].toLocaleUpperCase()){
+        switch (documento[0].toUpperCase()) {
             case 'X':
-                numNIE = '0' + documento.slice(0, -1);
+                numNIE = '0' + documento.slice(1, -1);
                 break;
             case 'Y':
-                numNIE = '1' + documento.slice(0, -1);
+                numNIE = '1' + documento.slice(1, -1);
                 break;
             case 'Z':
-                numNIE = '2' + documento.slice(0, -1);
+                numNIE = '2' + documento.slice(1, -1);
                 break;
-        }  
-        let restoNIE = numNIE % 23;
-        resultado = (stringLetras[restoNIE].toUpperCase() === letraNIE);
-    }
+        }
+        let restoNIE = Number(numNIE) % 23;
+        console.log(restoNIE)
+        resultado = (stringLetras[restoNIE] === letraNIE.toUpperCase()); 
+        //Y1234567R
+
     if (!resultado && valor === "DNI") {
         DOM.dni_nie.setCustomValidity("El DNI no es válido");
+        console.log("entra DNI");
     } 
     else if(!resultado && valor === "NIE"){
         DOM.dni_nie.setCustomValidity("El NIE no es válido");
+        console.log("entra NIE");
     }
     else {
         DOM.dni_nie.setCustomValidity("");
+        console.log("entra NADA")
     }
-
     return resultado;
+}
 }
 // Escribo los mensajes de error al enviar el formulario
 function mensajesError(nombre, mensaje, estado) {
     let elemento = document.getElementsByName(nombre)[0];
     let errorElemento = document.getElementById(`error${nombre}`);
-    errorElemento ? errorElemento.remove(): "";
+    if (errorElemento) {
+        errorElemento.remove();
+    }
+
     if (estado === "invalido") {
         let error = document.createElement('p');
-        let div = document.getElementById('mensajesError');
         error.className = "errores";
         error.id = nombre;
         error.textContent = `${nombre}: ${mensaje}`;
-        div.appendChild(error);
-        if (nombre != "Aficiones"){
+        document.getElementById('mensajesError').appendChild(error); // Usar el div creado en el evento submit
+
+        if (nombre != "Aficiones") {
             let errorPersonalizado = document.createElement('p');
             errorPersonalizado.className = "errorPersonalizado";
             errorPersonalizado.id = `error${nombre}`;
             errorPersonalizado.textContent = (mensaje === "Completa este campo") ? "Debe rellenar esta sección" : "Debe introducir correctamente los datos";
-            
             elemento ? elemento.insertAdjacentElement('afterend', errorPersonalizado) : "";
         }
     }
@@ -172,17 +180,34 @@ function conteoDescr(){
     cambio.textContent = `${conteo.length}/120`; 
 }
 // Realizo las validaciones antes del envio del formulario
-DOM.formulario.addEventListener("submit", (e)=>{
-    document.getElementById('mensajesError').textContent = "";
-    conteoChecked() < 2 
-    ? (e.preventDefault(), 
-    mensajesError("Aficiones", "Debe marcar al menos 2 aficiones", "invalido"))
-    : (DOM.enviarAficiones.value = aficionesMarcadas());
+DOM.formulario.addEventListener("submit", (e) => {
+    // Limpiar mensajes de error anteriores
+    const mensajesErrorElement = document.getElementById('mensajesError');
+    if (mensajesErrorElement) {
+        mensajesErrorElement.remove();
+    }
+
+    // Crear un nuevo div para mensajes de error
+    let div = document.createElement('div');
+    div.id = "mensajesError";
+    document.getElementById('principal').appendChild(div);
+    document.getElementById('principal').className = "principalModificado";
+
+    // Validar aficiones
+    if (conteoChecked() < 2) {
+        e.preventDefault();
+        mensajesError("Aficiones", "Debe marcar al menos 2 aficiones", "invalido");
+    } else {
+        DOM.enviarAficiones.value = aficionesMarcadas();
+    }
+
+    // Validar inputs
     DOM.lista.map(input => {
-        input.validationMessage != "" 
-        ? (e.preventDefault(), mensajesError(input.name, input.validationMessage, "invalido")) 
-        : mensajesError(input.name, input.validationMessage, "valido")
+        if (input.validationMessage != "") {
+            e.preventDefault();
+            mensajesError(input.name, input.validationMessage, "invalido");
+        } else {
+            mensajesError(input.name, input.validationMessage, "valido");
+        }
     });
 })
-
-
